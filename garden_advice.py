@@ -67,14 +67,25 @@ def display_advice(month_number, month_name):
         print(f"  - {tip}")
 
 
-# TODO: Create a function to get and validate user input instead of inline logic
-current_month = datetime.datetime.now().month
-current_month_name = MONTHS[current_month - 1]
+def get_user_month():
+    """Prompt the user to enter a month name or press Enter for the current month.
+
+    Returns a tuple of (month_number, month_name).
+    Keeps asking until a valid month name is entered.
+    """
+    current_month = datetime.datetime.now().month
+    current_month_name = MONTHS[current_month - 1]
+
+    while True:
+        user_input = input(f"Enter a month name (or press Enter for {current_month_name}): ").strip().title()
+        if user_input == "":
+            return current_month, current_month_name
+        if user_input in MONTHS:
+            return MONTHS.index(user_input) + 1, user_input
+        print(f"'{user_input}' is not a valid month. Please try again.")
+
 
 print("Welcome to the Garden Advice App!")
-print(f"Current month: {current_month_name}")
-
-display_advice(current_month, current_month_name)
-
-# TODO: Allow user to query advice for any month, not just the current one
+month_number, month_name = get_user_month()
+display_advice(month_number, month_name)
 print("\nTip: Consistent gardening throughout the year leads to a thriving garden!")
