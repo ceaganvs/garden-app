@@ -91,6 +91,14 @@ def get_tips_for_season(season):
     return "\n".join(lines)
 
 
+def _closest(value, options):
+    value_lower = value.lower()
+    for option in options:
+        if option.lower().startswith(value_lower) or value_lower in option.lower():
+            return option
+    return None
+
+
 def search_tips(keyword):
     keyword_lower = keyword.lower()
     results = []
@@ -117,8 +125,12 @@ def main():
         elif user_input in SEASONS:
             print(get_tips_for_season(user_input))
         else:
-            print(search_tips(user_input))
-            # TODO: suggest the closest matching month/season when the user types something unrecognised
+            all_known = list(month_tips.keys()) + list(SEASONS.keys())
+            match = _closest(user_input, all_known)
+            if match:
+                print(f"No match for '{user_input}'. Did you mean '{match}'?")
+            else:
+                print(search_tips(user_input))
 
 
 if __name__ == "__main__":
