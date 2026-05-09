@@ -91,11 +91,22 @@ def get_tips_for_season(season):
     return "\n".join(lines)
 
 
+def search_tips(keyword):
+    keyword_lower = keyword.lower()
+    results = []
+    for month, tips in month_tips.items():
+        for tip in tips:
+            if keyword_lower in tip.lower():
+                results.append(f"  [{month}] {tip}")
+    if results:
+        return f"Tips mentioning '{keyword}':\n" + "\n".join(results)
+    return f"No tips found mentioning '{keyword}'."
+
+
 def main():
     print("Garden Advice Tool")
     print("==================")
-    # TODO: add a search feature so users can look up tips by keyword (e.g. 'tomato', 'frost')
-    print("\nEnter a month name, a season, or 'quit' to exit.")
+    print("\nEnter a month, season, or keyword to search (e.g. 'tomato'). Type 'quit' to exit.")
     while True:
         user_input = input("\n> ").strip().title()
         if user_input in ("Quit", "Q", "Exit"):
@@ -106,8 +117,8 @@ def main():
         elif user_input in SEASONS:
             print(get_tips_for_season(user_input))
         else:
+            print(search_tips(user_input))
             # TODO: suggest the closest matching month/season when the user types something unrecognised
-            print("Type a month (e.g. 'April') or season (e.g. 'Summer').")
 
 
 if __name__ == "__main__":
