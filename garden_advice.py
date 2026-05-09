@@ -54,8 +54,13 @@ def get_advice(month):
     return season, tips
 
 
-# TODO: Add a docstring to this function explaining parameters and return value
 def display_advice(month_number, month_name):
+    """Print seasonal gardening tips for the given month.
+
+    Args:
+        month_number: Integer 1-12 representing the month.
+        month_name: String name of the month to display in the heading.
+    """
     season, tips = get_advice(month_number)
     print(f"\n=== Gardening Advice for {month_name} ({season}) ===")
     for tip in tips:
